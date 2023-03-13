@@ -7,12 +7,14 @@ const currentUserSubject = new BehaviorSubject(JSON.parse(localStorage.getItem('
 
 
 function setToken(token) {
-  sessionStorage.setItem('token', JSON.stringify(token))
+  localStorage.setItem('token', JSON.stringify(token))
 }
 function getToken() {
-  const tokenString = sessionStorage.getItem('token')
-  const userToken = JSON.parse(tokenString)
-  return userToken?.token
+  // const tokenString = localStorage.getItem('token')
+  // const userToken = JSON.parse(tokenString)
+  // return userToken?.token
+  // console.log(localStorage.getItem('token'))
+  return JSON.parse(localStorage.getItem('token'))
 }
 
 export class Login extends React.Component {
@@ -46,10 +48,18 @@ handlePasswordChange = (e) => this.setState({
           email:this.state.email,
           password:this.state.password
         }).then((response) => {
-        console.log(response.data);
-        // localStorage.setItem('currentUser', JSON.stringify(response.data));
-        // currentUserSubject.next(response.data);
-        setToken(response.data.token)
+        console.log(response);
+   
+        setToken(response.data.token);
+        
+       // console.log(getToken());
+        if(getToken()==""){
+        
+          console.log("token is empty");
+        }else{
+          console.log("everything good, logged in");
+          console.log(getToken());
+        }
           }, (error) => {
         console.log(error);
       });
