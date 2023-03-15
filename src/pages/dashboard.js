@@ -1,5 +1,5 @@
 import './dashboard.css';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import Row from '../widget/row';
 import moment from "moment";
 import leftAr from "../assets/arrow-left.png";
@@ -20,11 +20,13 @@ let init = 0;
 //let arr = url.split("/");
 // let location_url = arr[0] + "//" + arr[2]+"/dev/wellbeing";
 // let location_url = "http://localhost:8080/dev/active";
-let location_url = "https://tnar265kz4.execute-api.us-west-2.amazonaws.com/dev/wellbeing";
+//let location_url = "https://tnar265kz4.execute-api.us-west-2.amazonaws.com/dev/wellbeing";
 
 const DashBoardPage = () => {
-
-
+    useEffect(() => {
+        document.title = 'Dashboard';
+      }, []);
+    
     let [date = moment(new Date()).add(-1, 'days').toDate(), setDate] = useState();
     let [data = [], setData] = useState();
 
@@ -60,16 +62,16 @@ const DashBoardPage = () => {
     };
 
     async function getAPI () {
-        let params = {
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            response: false,
-            params: {
-                date: moment(date).format('YYYY/MM/DD'),
-            },
-        }
-        await axios.get(location_url, params)
+        // let params = {
+        //     headers: {
+        //         'Content-Type': 'application/json',
+        //     },
+        //     response: false,
+        //     params: {
+        //         date: moment(date).format('YYYY/MM/DD'),
+        //     },
+        // }
+        await axios.get("http://localhost:9000/")
             .then(res => {
                 console.log("test data", res.data);
                 // setData(data = res.data);
@@ -115,6 +117,7 @@ const DashBoardPage = () => {
                     }
                 }])
             })
+            
         console.log("myData", data);
     }
 
@@ -459,7 +462,7 @@ const DashBoardPage = () => {
         </>
     );
 }
-
+export default DashBoardPage;
 const DatePickerWrapper = styled.div`
   width: 100%;
   height: 50px;
@@ -558,4 +561,4 @@ const DashboardItem = styled.div`
 
 `;
 
-export default DashBoardPage;
+
